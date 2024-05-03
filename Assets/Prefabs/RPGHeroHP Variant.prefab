@@ -256,6 +256,20 @@ MonoBehaviour:
   theColour: {r: 0, g: 0, b: 0, a: 0}
   joystick: {fileID: 2929252283123773939, guid: f6a44673f5518541892289c807f24f08,
     type: 3}
+--- !u!114 &-8893728729366978606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6529221307465098406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae9b2348445b464791a7596868fe8b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 3
 --- !u!95 &6615009214736878014 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95922273507661854, guid: c20397bf1592dc040b827e8716b0bd41,

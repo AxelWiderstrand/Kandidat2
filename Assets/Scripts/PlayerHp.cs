@@ -1,0 +1,64 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerHp : MonoBehaviour
+{
+    public int health;
+    public int maxHealth = 3;
+    public float knockbackForce;
+    public float gracePeriodDuration = 0.5f; //Grace period duration in seconds
+    private float lastDamageTime; //Latest time player took damage
+
+    //Start is called before the first frame update
+    void Start()
+    {
+        health = maxHealth;
+        lastDamageTime = -gracePeriodDuration; //Initialize lastDamageTime to a time before the grace period
+    }
+
+    public void SetKnockBack(float force){
+        knockbackForce = force;
+    }
+
+    public void TakeDamage(int amount, Vector3 enemyPosition){
+        if (Time.time - lastDamageTime >= gracePeriodDuration)
+        {
+            health -= amount;
+            if (health <= 0){
+                Debug.Log("Dead");
+                //Destroy(gameObject);
+            }
+            else{
+                TakeKnockback(enemyPosition);
+                lastDamageTime = Time.time; // Update lastDamageTime to the current time
+            }
+        }
+    }  
+
+    public void TakeDamage(int amount){
+        health -= amount;
+        if (health <= 0){
+            Debug.Log("Dead");
+            //Destroy(gameObject);
+        }
+    }  
+
+    private void TakeKnockback(Vector3 enemyPosition){
+        //knockback
+        Vector3 knockbackDirection = transform.position - enemyPosition;
+            knockbackDirection.y = 0; //Disables knockback in y direction
+            knockbackDirection.Normalize();
+            GetComponent<Rigidbody>().AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+        
+        //Mostly ignores playerinput that could interupt the knockback
+        Vector3 knockbackVelocity = GetComponent<Rigidbody>().velocity;
+            knockbackVelocity.y = 0; //no y velocity
+            float knockbackSpeed = Vector3.Dot(knockbackVelocity, knockbackDirection);
+            if (knockbackSpeed > 0)
+            {
+                GetComponent<Rigidbody>().velocity -= knockbackSpeed * knockbackDirection;
+            }
+        
+    }
+}
