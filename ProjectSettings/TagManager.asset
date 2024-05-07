@@ -10,6 +10,7 @@ TagManager:
   - player1
   - player2
   - player3
+  - FixedCam
   layers:
   - Default
   - TransparentFX

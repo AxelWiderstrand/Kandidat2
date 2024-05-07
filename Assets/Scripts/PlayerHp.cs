@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class PlayerHp : MonoBehaviour
 {
-    public int health;
+    private int health;
     public int maxHealth = 3;
     public float knockbackForce;
     public float gracePeriodDuration = 0.5f; //Grace period duration in seconds
     private float lastDamageTime; //Latest time player took damage
 
+    [SerializeField] FloatingHealthBar healthBar;
+
+    void Awake() 
+    {
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+    }
     //Start is called before the first frame update
     void Start()
     {
         health = maxHealth;
+        // Update if restart game
+        healthBar.UpdateHealthBar(health, maxHealth);
         lastDamageTime = -gracePeriodDuration; //Initialize lastDamageTime to a time before the grace period
     }
 
@@ -25,6 +33,7 @@ public class PlayerHp : MonoBehaviour
         if (Time.time - lastDamageTime >= gracePeriodDuration)
         {
             health -= amount;
+            healthBar.UpdateHealthBar(health, maxHealth);
             if (health <= 0){
                 Debug.Log("Dead");
                 //Destroy(gameObject);
@@ -38,9 +47,11 @@ public class PlayerHp : MonoBehaviour
 
     public void TakeDamage(int amount){
         health -= amount;
+        healthBar.UpdateHealthBar(health, maxHealth);
+
         if (health <= 0){
             Debug.Log("Dead");
-            //Destroy(gameObject);
+          //  Destroy(gameObject);
         }
     }  
 
