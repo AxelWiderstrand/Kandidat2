@@ -9,6 +9,8 @@ public class PlayerHp : MonoBehaviour
     public float knockbackForce;
     public float gracePeriodDuration = 0.5f; //Grace period duration in seconds
     private float lastDamageTime; //Latest time player took damage
+    private ClientPlayer playerMovAndMore;
+
 
     [SerializeField] FloatingHealthBar healthBar;
 
@@ -22,7 +24,16 @@ public class PlayerHp : MonoBehaviour
         health = maxHealth;
         // Update if restart game
         healthBar.UpdateHealthBar(health, maxHealth);
+        playerMovAndMore = GetComponent<ClientPlayer>();
         lastDamageTime = -gracePeriodDuration; //Initialize lastDamageTime to a time before the grace period
+    }
+
+    public int getHealth(){
+        return health;
+    }
+
+    public void setHealth(int newHealth){
+        health = newHealth;
     }
 
     public void SetKnockBack(float force){
@@ -35,8 +46,7 @@ public class PlayerHp : MonoBehaviour
             health -= amount;
             healthBar.UpdateHealthBar(health, maxHealth);
             if (health <= 0){
-                Debug.Log("Dead");
-                //Destroy(gameObject);
+                FatalDamage();
             }
             else{
                 TakeKnockback(enemyPosition);
@@ -50,10 +60,16 @@ public class PlayerHp : MonoBehaviour
         healthBar.UpdateHealthBar(health, maxHealth);
 
         if (health <= 0){
-            Debug.Log("Dead");
-          //  Destroy(gameObject);
+            FatalDamage();
         }
     }  
+
+    private void FatalDamage(){
+        Debug.Log("Dead");
+        //Destroy(gameObject);
+        playerMovAndMore.isStone = true; 
+
+    }
 
     private void TakeKnockback(Vector3 enemyPosition){
         //knockback

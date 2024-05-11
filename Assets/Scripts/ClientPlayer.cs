@@ -20,6 +20,10 @@ public class ClientPlayer : NetworkBehaviour
     private float dirZ;
 
     private Animator animator;
+
+    // for disabling controlls, done in playerhp because playermovement not compartmentlized.
+    public bool isStone = false;
+
     public override void OnStartClient()
     {
         // Tell our object to be our own colour when it spawns so we can recognize it
@@ -70,7 +74,7 @@ public class ClientPlayer : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isOwned)
+        if (isOwned & isStone == false)
         {
             dirX = joystick.GetComponent<FixedJoystick>().Horizontal;
             dirZ = joystick.GetComponent<FixedJoystick>().Vertical;
@@ -93,6 +97,21 @@ public class ClientPlayer : NetworkBehaviour
                 animator.SetBool("IsMoving", false);
             }
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player"){
+            Debug.Log("Entered collision with " + collision.gameObject.name);
+            //collision.gameObject.PlayerHp.TakeDamage(damage);
+            PlayerHp playerHp = collision.gameObject.GetComponent<PlayerHp>();
+            int health = playerHp.getHealth();
+            if (health <= 0){
+                playerHp.setHealth(1);
+                isStone = false;
+            }
+        }
+        
     }
 
     private void initializeFogRevealers() 
