@@ -97,6 +97,9 @@ public class ClientPlayer : NetworkBehaviour
                 animator.SetBool("IsMoving", false);
             }
         }
+        else{
+            animator.SetBool("IsMoving", false);
+        }
     }
 
     void OnCollisionEnter(Collision collision)
