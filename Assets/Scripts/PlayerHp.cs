@@ -65,7 +65,7 @@ public class PlayerHp : MonoBehaviour
     }  
 
     private void FatalDamage(){
-        Debug.Log("Dead");
+        //Debug.Log("Dead");
         //Destroy(gameObject);
         playerMovAndMore.isStone = true; 
 

@@ -11,7 +11,7 @@ public class CollisionEnemy : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player"){
-            Debug.Log("Entered collision with " + collision.gameObject.name);
+            //Debug.Log("Entered collision with " + collision.gameObject.name);
             //collision.gameObject.PlayerHp.TakeDamage(damage);
             PlayerHp playerHp = collision.gameObject.GetComponent<PlayerHp>();
             playerHp.SetKnockBack(knockbackForce);
