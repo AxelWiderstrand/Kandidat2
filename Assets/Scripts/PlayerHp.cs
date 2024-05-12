@@ -11,6 +11,9 @@ public class PlayerHp : MonoBehaviour
     private float lastDamageTime; //Latest time player took damage
     private ClientPlayer playerMovAndMore;
 
+     // for disabling controlls, done in playerhp because playermovement not compartmentlized.
+    public bool isStone = false;
+
 
     [SerializeField] FloatingHealthBar healthBar;
 
@@ -55,6 +58,24 @@ public class PlayerHp : MonoBehaviour
         }
     }  
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player"){
+            Debug.Log("Entered collision with " + collision.gameObject.name);
+            //collision.gameObject.PlayerHp.TakeDamage(damage);
+            //PlayerHp playerHp = collision.gameObject.GetComponent<PlayerHp>();
+            
+            //int health = playerHp.getHealth();
+            if (health <= 0){
+                //playerHp.setHealth(1);
+                health = 1;
+                isStone = false;
+                healthBar.UpdateHealthBar(health, maxHealth);
+                //playerHp.UpdateHealthBar(health, maxHealth);
+            }
+        }
+    }
+
     public void TakeDamage(int amount){
         health -= amount;
         healthBar.UpdateHealthBar(health, maxHealth);
@@ -67,8 +88,8 @@ public class PlayerHp : MonoBehaviour
     private void FatalDamage(){
         //Debug.Log("Dead");
         //Destroy(gameObject);
-        playerMovAndMore.isStone = true; 
-
+        //playerMovAndMore.isStone = true; 
+        isStone = true;
     }
 
     private void TakeKnockback(Vector3 enemyPosition){
