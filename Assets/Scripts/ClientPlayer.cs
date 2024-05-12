@@ -78,14 +78,11 @@ public class ClientPlayer : NetworkBehaviour
         playerHp = GetComponent<PlayerHp>();
         if (isOwned & playerHp.isStone == false)
         {   
-            Debug.Log("isStone " + playerHp.isStone);
-
             joystickMovement();
             // Set up fogrevealers, bad fix. Each client has to do this
             initializeFogRevealers();
         }
         else if (isOwned) {
-            Debug.Log("isStone; " + playerHp.isStone);
             animator.SetBool("IsMoving", false);
         }
     }
