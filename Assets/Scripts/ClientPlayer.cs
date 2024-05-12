@@ -77,34 +77,40 @@ public class ClientPlayer : NetworkBehaviour
         // create healthlog
         playerHp = GetComponent<PlayerHp>();
         if (isOwned & playerHp.isStone == false)
-        {
-            dirX = joystick.GetComponent<FixedJoystick>().Horizontal;
-            dirZ = joystick.GetComponent<FixedJoystick>().Vertical;
-            Vector3 movementDirection = new Vector3(dirX, 0, dirZ);
-            movementDirection.Normalize();
-            transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
+        {   
+            Debug.Log("isStone " + playerHp.isStone);
 
+            joystickMovement();
+            // Set up fogrevealers, bad fix. Each client has to do this
             initializeFogRevealers();
-
-            if (movementDirection != Vector3.zero)
-            {
-                animator.SetBool("IsMoving", true);
-                Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-                CmdSetMoveTarget(this.GetComponent<Rigidbody>().position);
-            }
-            else
-            {
-                animator.SetBool("IsMoving", false);
-            }
         }
-        else{
+        else if (isOwned) {
+            Debug.Log("isStone; " + playerHp.isStone);
             animator.SetBool("IsMoving", false);
         }
     }
 
-    
+    private void joystickMovement()
+    {
+        dirX = joystick.GetComponent<FixedJoystick>().Horizontal;
+        dirZ = joystick.GetComponent<FixedJoystick>().Vertical;
+        Vector3 movementDirection = new Vector3(dirX, 0, dirZ);
+        movementDirection.Normalize();
+        transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
+
+        if (movementDirection != Vector3.zero)
+        {
+            animator.SetBool("IsMoving", true);
+            Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            CmdSetMoveTarget(this.GetComponent<Rigidbody>().position);
+        }
+        else
+        {
+            animator.SetBool("IsMoving", false);
+        }
+    }
 
     private void initializeFogRevealers() 
     {   
