@@ -14,6 +14,8 @@ public class PlayerHp : MonoBehaviour
      // for disabling controlls, done in playerhp because playermovement not compartmentlized.
     public bool isStone = false;
 
+    private List<PlayerHp> allPlayersHp = new List<PlayerHp>();
+
 
     [SerializeField] FloatingHealthBar healthBar;
 
@@ -29,6 +31,17 @@ public class PlayerHp : MonoBehaviour
         healthBar.UpdateHealthBar(health, maxHealth);
         playerMovAndMore = GetComponent<ClientPlayer>();
         lastDamageTime = -gracePeriodDuration; //Initialize lastDamageTime to a time before the grace period
+
+        //Find and add all all players hp to the list so it can be observed
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject playerObject in playerObjects)
+        {
+            PlayerHp playerHp = playerObject.GetComponent<PlayerHp>();
+            if (playerHp != null)
+            {
+                allPlayersHp.Add(playerHp);
+            }
+        }
     }
 
     public int getHealth(){
@@ -55,7 +68,9 @@ public class PlayerHp : MonoBehaviour
                 TakeKnockback(enemyPosition);
                 lastDamageTime = Time.time; // Update lastDamageTime to the current time
             }
+            CheckStatus();
         }
+        
     }  
 
     void OnCollisionEnter(Collision collision)
@@ -76,6 +91,29 @@ public class PlayerHp : MonoBehaviour
         }
     }
 
+    void CheckStatus()
+    {
+        bool allPlayersDead = true;
+        //Check if any player is still alive
+        foreach (PlayerHp playerHp in allPlayersHp)
+        {
+            if (playerHp.getHealth() > 0)
+            {
+                allPlayersDead = false;
+                break;
+            }
+        }
+        // If all players are dead, show the loss screen
+        if (allPlayersDead)
+        {
+            // Activate loss screen
+            
+            Debug.Log("All players are dead! Show loss screen.");
+            //playerMovAndMore.
+            // Show your loss screen UI or perform any other necessary actions.
+        }
+    }
+
     public void TakeDamage(int amount){
         health -= amount;
         healthBar.UpdateHealthBar(health, maxHealth);
@@ -83,6 +121,7 @@ public class PlayerHp : MonoBehaviour
         if (health <= 0){
             FatalDamage();
         }
+        CheckStatus();
     }  
 
     private void FatalDamage(){
