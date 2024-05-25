@@ -21,6 +21,7 @@ public class CITENetworkManager : NetworkManager {
         Debug.Log("Loading bootstrap");
         Application.targetFrameRate = 60;
         connectedIDs = new Dictionary<NetworkConnection, int>();
+        //SceneManager.LoadScene()
         SceneManager.LoadScene(bootstrapSceneBuildIndex, LoadSceneMode.Single);
     }
 
