@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311926, g: 0.38073993, b: 0.35872683, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -176,7 +176,7 @@ MonoBehaviour:
   sendRate: 60
   autoStartServerBuild: 0
   autoConnectClientBuild: 0
-  offlineScene: 
+  offlineScene: Assets/Scenes/StartScreen.unity
   onlineScene: Assets/Scenes/Lvl1.unity
   transport: {fileID: 422158499}
   networkAddress: 127.0.0.1
@@ -206,7 +206,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  bootstrapSceneBuildIndex: 2
+  bootstrapSceneBuildIndex: 5
   errorSceneBuildIndex: 1
 --- !u!114 &422158498
 MonoBehaviour:
